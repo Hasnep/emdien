@@ -47,6 +47,7 @@ func run(args []string) {
 		panic(err)
 	}
 	fmt.Println(search_result)
+	fmt.Println(search_result.Facets)
 	// for _,search_result := range *search_results {
 
 	// }
@@ -118,19 +119,20 @@ func do_the_update(cache_dir string) {
 
 func create_index_if_not_exists(index_path string) bleve.Index {
 	if get_does_index_exist(index_path) {
-		index, err := bleve.Open("example.bleve")
+		index, err := bleve.Open(index_path)
 		if err != nil {
 			panic(err)
 		}
 		return index
+	} else {
+		mapping := bleve.NewIndexMapping()
+		index, bleve_err := bleve.New(index_path, mapping)
+		if bleve_err != nil {
+			fmt.Println("error creating bleve: ", bleve_err)
+			os.Exit(1)
+		}
+		return index
 	}
-	mapping := bleve.NewIndexMapping()
-	index, bleve_err := bleve.New(index_path, mapping)
-	if bleve_err != nil {
-		fmt.Println("error creating bleve: ", bleve_err)
-		os.Exit(1)
-	}
-	return index
 }
 
 func index_worker(wg *sync.WaitGroup, index bleve.Index, file_path string) {
