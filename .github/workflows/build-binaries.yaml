@@ -1,4 +1,4 @@
-name: Build and publish binaries
+name: Build binaries
 
 on:
   # Run on all PRs
@@ -36,7 +36,7 @@ jobs:
               GOOS=$OPERATING_SYSTEM GOARCH=$ARCHITECTURE go build -o $OUTPUT_FILE_PATH
             done
           done
-      - name: Upload binaries to release
+      - name: Publish binaries
         if: ${{ github.event_name == 'release' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
