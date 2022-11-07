@@ -1,0 +1,28 @@
+[
+  { "name": "fix", "description": "Fixing a bug", "color": "#B60205" },
+  {
+    "name": "feature",
+    "description": "Some new functionality",
+    "color": "#006B75"
+  },
+  {
+    "name": "chore",
+    "description": "Maintenance to non-core files",
+    "color": "#5319E7"
+  },
+  {
+    "name": "major",
+    "description": "Incompatible API change",
+    "color": "#D93F0B"
+  },
+  {
+    "name": "minor",
+    "description": "Backwards compatible change",
+    "color": "#FBCA04"
+  },
+  {
+    "name": "patch",
+    "description": "Backwards compatible bug fix",
+    "color": "#0E8A16"
+  }
+]

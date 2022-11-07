@@ -1,0 +1,13 @@
+[linters]
+disable-all = true
+enable = [
+    "errcheck",
+    "gofumpt",
+    "gosimple",
+    "govet",
+    "ineffassign",
+    "revive",
+    "staticcheck",
+    "typecheck",
+    "unused",
+]

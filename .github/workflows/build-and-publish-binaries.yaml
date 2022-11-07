@@ -1,0 +1,40 @@
+name: Build and publish binaries
+
+on:
+  # Run when a release is published
+  release:
+    types:
+      - published
+
+env:
+  OPERATING_SYSTEMS: linux darwin windows
+  ARCHITECTURES: amd64 arm64
+
+jobs:
+  build-and-publish-binaries:
+    name: Build and publish binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Install Go dependencies
+        run: go get .
+      - name: Build binaries
+        run: |
+          for OPERATING_SYSTEM in $OPERATING_SYSTEMS; do
+            FILE_EXTENSION=$( [ $OPERATING_SYSTEM == windows ] && echo ".exe" )
+            for ARCHITECTURE in $ARCHITECTURES; do
+              OUTPUT_FILE_PATH="build/mdn-$OPERATING_SYSTEM-$ARCHITECTURE$FILE_EXTENSION"
+              echo "Building `$OUTPUT_FILE_PATH`."
+              GOOS=$OPERATING_SYSTEM GOARCH=$ARCHITECTURE go build -o $OUTPUT_FILE_PATH
+            done
+          done
+      - name: Upload binaries to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.ref_name }}" $(find build/ -type f)
