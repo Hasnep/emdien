@@ -1,0 +1,22 @@
+name: Run pre-commit
+
+on:
+  # Run on all PRs
+  pull_request:
+
+jobs:
+  run-pre-commit:
+    name: Run pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Install Python
+        uses: actions/setup-python@v3
+      - name: Install and run Pre-commit
+        uses: pre-commit/action@v3.0.0

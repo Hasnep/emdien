@@ -1,0 +1,32 @@
+name: Check PR labels
+
+on:
+  # Run on all PRs
+  pull_request:
+    types:
+      - labeled
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  check-pr-labels:
+    name: Check PR labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Set up the repo's labels
+        uses: lannonbr/issue-label-manager-action@3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check for PR category labels
+        uses: yogevbd/enforce-label-action@2.1.0
+        with:
+          REQUIRED_LABELS_ANY: feature,bug,chore
+          REQUIRED_LABELS_ANY_DESCRIPTION: Please tag your PR with one of `feature`, `bug`, or `chore`.
+      - name: Check for PR version labels
+        uses: yogevbd/enforce-label-action@2.1.0
+        with:
+          REQUIRED_LABELS_ANY: major,minor,patch
+          REQUIRED_LABELS_ANY_DESCRIPTION: Please tag your PR with one of `major`, `minor`, `patch`.
