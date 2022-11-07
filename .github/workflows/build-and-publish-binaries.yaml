@@ -27,7 +27,7 @@ jobs:
       - name: Build binaries
         run: |
           for OPERATING_SYSTEM in $OPERATING_SYSTEMS; do
-            FILE_EXTENSION=$( [ $OPERATING_SYSTEM == windows ] && echo ".exe" )
+            FILE_EXTENSION=$( [ $OPERATING_SYSTEM == windows ] && echo ".exe" || echo "" )
             for ARCHITECTURE in $ARCHITECTURES; do
               OUTPUT_FILE_PATH="build/mdn-$OPERATING_SYSTEM-$ARCHITECTURE$FILE_EXTENSION"
               echo "Building `$OUTPUT_FILE_PATH`."
