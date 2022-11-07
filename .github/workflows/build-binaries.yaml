@@ -1,6 +1,8 @@
-name: Build and publish binaries
+name: Build binaries
 
 on:
+  # Run on all PRs
+  pull_request:
   # Run when a release is published
   release:
     types:
@@ -34,7 +36,8 @@ jobs:
               GOOS=$OPERATING_SYSTEM GOARCH=$ARCHITECTURE go build -o $OUTPUT_FILE_PATH
             done
           done
-      - name: Upload binaries to release
+      - name: Publish binaries
+        if: ${{ github.event_name == 'release' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload "${{ github.ref_name }}" $(find build/ -type f)
