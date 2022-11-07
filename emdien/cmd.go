@@ -43,6 +43,7 @@ func Execute() error {
 
 func run(args []string) {
 	cacheFolderPath := getCachePath()
+	fmt.Println(cacheFolderPath)
 
 	index := createIndexIfDoesntExist(getIndexPath(cacheFolderPath))
 
