@@ -23,8 +23,8 @@ jobs:
       - name: Check for PR category labels
         uses: yogevbd/enforce-label-action@2.1.0
         with:
-          REQUIRED_LABELS_ANY: feature,bug,chore
-          REQUIRED_LABELS_ANY_DESCRIPTION: Please tag your PR with one of `feature`, `bug`, or `chore`.
+          REQUIRED_LABELS_ANY: feature,fix,chore
+          REQUIRED_LABELS_ANY_DESCRIPTION: Please tag your PR with one of `feature`, `fix`, or `chore`.
       - name: Check for PR version labels
         uses: yogevbd/enforce-label-action@2.1.0
         with:
