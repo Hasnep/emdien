@@ -1,4 +1,4 @@
-module github.com/Hasnep/test-repo-please-delete
+module github.com/Hasnep/emdien
 
 go 1.19
 

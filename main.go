@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/Hasnep/test-repo-please-delete/emdien"
+	"github.com/Hasnep/emdien/emdien"
 )
 
 func main() {
