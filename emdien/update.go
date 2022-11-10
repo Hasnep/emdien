@@ -18,12 +18,13 @@ func updateLocalCache(index bleve.Index, cacheFolderPath string) {
 func cloneRepoIfDoesntExist(repoPath string) {
 	fmt.Println("Cloning MDN repository.")
 	_, err := git.PlainClone(repoPath, false, &git.CloneOptions{
-		URL:           "http://github.com/mdn/content.git",
-		Progress:      os.Stdout,
-		RemoteName:    "origin",
-		ReferenceName: "main",
-		SingleBranch:  true,
-		Depth:         1,
+		URL:        "http://github.com/mdn/content.git",
+		Progress:   os.Stdout,
+		RemoteName: "origin",
+		// TODO: Decrease amount of data downloaded
+		// ReferenceName: "main",
+		// SingleBranch:  true,
+		// Depth:         1,
 	})
 	if err == nil {
 		fmt.Println("Cloned MDN repository successfully.")
@@ -44,19 +45,19 @@ func updateRepo(repoPath string) {
 		panic(errWorkTree)
 	}
 	errPull := workTree.Pull(&git.PullOptions{
-		Progress:      os.Stdout,
-		RemoteName:    "origin",
-		ReferenceName: "main",
-		SingleBranch:  true,
-		Depth:         1,
-		Force:         true,
+		Progress: os.Stdout,
+		// TODO: Decrease amount of data downloaded
+		// RemoteName:    "origin",
+		// ReferenceName: "main",
+		// SingleBranch:  true,
+		// Depth:         1,
+		// Force:         true,
 	})
 	if errPull == nil {
 		fmt.Println("Updated MDN data.")
 	} else if errPull == git.NoErrAlreadyUpToDate {
 		fmt.Println("MDN data already up to date.")
 	} else {
-		fmt.Print("")
-		// panic(errPull)
+		panic(errPull)
 	}
 }
