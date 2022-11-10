@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"sync"
+
+	// TODO: Parallelise indexing
+	// "sync"
 
 	"github.com/blevesearch/bleve/v2"
 )
@@ -25,18 +27,24 @@ func createIndexIfDoesntExist(indexPath string) bleve.Index {
 	return index
 }
 
-func indexWorker(waitGroup *sync.WaitGroup, index bleve.Index, filePath string) {
+func indexWorker(
+	// TODO: Parallelise indexing
+	// waitGroup *sync.WaitGroup,
+	index bleve.Index, filePath string,
+) {
 	if filepath.Ext(filePath) == ".md" {
 		content, errReadFile := os.ReadFile(filePath)
 		if errReadFile != nil {
 			panic(errReadFile)
 		}
+		fmt.Println("Indexing", filePath)
 		errIndex := index.Index(filePath, string(content))
 		if errIndex != nil {
 			panic(errIndex)
 		}
 	}
-	waitGroup.Done()
+	// TODO: Parallelise indexing
+	// waitGroup.Done()
 }
 
 func reIndex(index bleve.Index, cacheFolderPath string) bleve.Index {
@@ -45,19 +53,23 @@ func reIndex(index bleve.Index, cacheFolderPath string) bleve.Index {
 
 	// Index the data in parallel
 	fmt.Println("Indexing data.")
-	var wg sync.WaitGroup
+	// TODO: Parallelise indexing
+	// var wg sync.WaitGroup
 	errWalkDir := filepath.WalkDir(
 		dataFolderPath,
 		func(path string, dir_entry os.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
-			wg.Add(1)
-			go indexWorker(&wg, index, path)
+			// TODO: Parallelise indexing
+			// wg.Add(1)
+			// go indexWorker(&wg, index, path)
+			indexWorker(index, path)
 			return nil
 		},
 	)
-	wg.Wait() // Wait until all the workers have finished
+	// TODO: Parallelise indexing
+	// wg.Wait() // Wait until all the workers have finished
 	if errWalkDir != nil {
 		panic(errWalkDir)
 	}
