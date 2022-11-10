@@ -1,4 +1,4 @@
-name: Build binaries
+name: Build and test binaries
 
 on:
   # Run on all PRs
@@ -36,6 +36,10 @@ jobs:
               GOOS=$OPERATING_SYSTEM GOARCH=$ARCHITECTURE go build -o $OUTPUT_FILE_PATH
             done
           done
+      - name: Run end-to-end tests
+        run: |
+          build/mdn-linux-amd64 --update
+          build/mdn-linux-amd64 css grid layout
       - name: Publish binaries
         if: ${{ github.event_name == 'release' }}
         env:
